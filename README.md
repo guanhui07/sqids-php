@@ -34,7 +34,7 @@ Not good for:
 Require this package, with [Composer](https://getcomposer.org), in the root directory of your project.
 
 ```bash
-composer require sqids/sqids
+composer require guanhui07/sqids
 ```
 
 Then you can import the class into your application:
