@@ -587,11 +587,11 @@ class Sqids implements SqidsInterface
     protected MathInterface $math;
 
     /** @throws \InvalidArgumentException */
-    public function __construct(
-        protected string $alphabet = self::DEFAULT_ALPHABET,
-        protected int $minLength = self::DEFAULT_MIN_LENGTH,
-        protected array $blocklist = self::DEFAULT_BLOCKLIST,
-    ) {
+    public function __construct()
+    {
+        $alphabet = self::DEFAULT_ALPHABET;
+        $minLength = self::DEFAULT_MIN_LENGTH;
+        $blocklist = self::DEFAULT_BLOCKLIST;
         $this->math = $this->getMathExtension();
 
         if ($alphabet == '') {
@@ -623,13 +623,13 @@ class Sqids implements SqidsInterface
 
         $filteredBlocklist = [];
         $alphabetChars = str_split(strtolower($alphabet));
-        foreach ((array) $blocklist as $word) {
-            if (strlen((string) $word) >= 3) {
+        foreach ((array)$blocklist as $word) {
+            if (strlen((string)$word) >= 3) {
                 $wordLowercased = strtolower($word);
-                $wordChars = str_split((string) $wordLowercased);
+                $wordChars = str_split((string)$wordLowercased);
                 $intersection = array_filter($wordChars, fn($c) => in_array($c, $alphabetChars));
                 if (count($intersection) == count($wordChars)) {
-                    $filteredBlocklist[] = strtolower((string) $wordLowercased);
+                    $filteredBlocklist[] = strtolower((string)$wordLowercased);
                 }
             }
         }
@@ -813,16 +813,16 @@ class Sqids implements SqidsInterface
         $id = strtolower($id);
 
         foreach ($this->blocklist as $word) {
-            if (strlen((string) $word) <= strlen($id)) {
-                if (strlen($id) <= 3 || strlen((string) $word) <= 3) {
+            if (strlen((string)$word) <= strlen($id)) {
+                if (strlen($id) <= 3 || strlen((string)$word) <= 3) {
                     if ($id == $word) {
                         return true;
                     }
-                } elseif (preg_match('/~[0-9]+~/', (string) $word)) {
-                    if (str_starts_with($id, (string) $word) || strrpos($id, (string) $word) === strlen($id) - strlen((string) $word)) {
+                } elseif (preg_match('/~[0-9]+~/', (string)$word)) {
+                    if (str_starts_with($id, (string)$word) || strrpos($id, (string)$word) === strlen($id) - strlen((string)$word)) {
                         return true;
                     }
-                } elseif (str_contains($id, (string) $word)) {
+                } elseif (str_contains($id, (string)$word)) {
                     return true;
                 }
             }
